@@ -61,6 +61,28 @@ def get_jugadores2():
 
 
 
+@app.route('/jugadores/<id>', methods=['GET'])
+def get_jugadores3(id):
+    try: 
+        jugador = Jugadores.query.get(id)
+        #print(equipos)
+        jugador_data = {
+            'id': jugador.id,
+            'id_equipo': jugador.id_equipo,
+            'nombre': jugador.nombre,
+            'edad': jugador.edad,
+            'altura': jugador.altura,
+            'posicion': jugador.posicion,
+            'nacionalidad': jugador.nacionalidad
+        }
+
+        return jugador_data
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
+
 @app.route('/equipos/<id_equipo>', methods=['GET'])
 def data(id_equipo):    
     try: 
@@ -110,12 +132,13 @@ def data2(id_equipo):
 
 
 
-@app.route('/equipos/<id_equipo>/jugadores', methods=['POST'])
+@app.route('/equipos/<id_equipo>', methods=['POST'])
 def nuevo_jugador(id_equipo):
     try: 
-        equipo = Equipos.query.get(id_equipo)
+        #equipo = Equipos.query.get(id_equipo)
 
         data = request.json
+        
         id_equipo = data.get('id_equipo')
         nombre = data.get('nombre')
         edad = data.get('edad')
@@ -124,7 +147,7 @@ def nuevo_jugador(id_equipo):
         nacionalidad = data.get('nacionalidad')
         if not id_equipo or not nombre or not edad or not altura or not posicion or not nacionalidad:
             return jsonify({'message': 'Bad request, isbn or name or cantPages or author not found'}), 400
-        new_jugador = Jugador(id_equipo=id_equipo, nombre=nombre, edad=edad, altura=altura, posicion=posicion, nacionalidad=nacionalidad)
+        new_jugador = Jugadores(id_equipo=id_equipo, nombre=nombre, edad=edad, altura=altura, posicion=posicion, nacionalidad=nacionalidad)
         db.session.add(new_jugador)
         db.session.commit()
         return jsonify({'jugador': {'id': new_jugador.id, 'id_equipo': new_jugador.id_equipo, 'nombre': new_jugador.nombre, 'edad': new_jugador.edad, 
@@ -135,6 +158,21 @@ def nuevo_jugador(id_equipo):
 
 
 
+@app.route('/jugadores/<id>', methods=['DELETE'])
+def eliminar_jugador(id):
+    try:
+        jugador = Jugadores.query.get(id)
+        if jugador is None:
+            return jsonify({'message': 'Jugador no encontrado'}), 404
+
+        db.session.delete(jugador)
+        db.session.commit()
+
+        return jsonify({'message': 'Jugador eliminado correctamente'}), 200
+
+    except Exception as error:
+        print(f'Error al eliminar el jugador: {error}')
+        return jsonify({'message': 'Error interno del servidor'}), 500
 
 
 

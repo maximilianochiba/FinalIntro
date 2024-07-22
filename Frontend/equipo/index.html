@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Estilos generales */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 20px;
+            padding: 20px; /* Ajuste del relleno */
+            text-align: center;
+        }
+
+        /* Estilos para las tarjetas del equipo y jugadores */
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px; /* Separación entre tarjetas */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s; /* Efecto de transición para hover */
+            margin: 10px;
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* Efecto de zoom al pasar el cursor */
+        }
+
+        .card-header {
+            background-color: #333;
+            color: #e0e0e0;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 15px; /* Ajuste del relleno */
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Estilos para la sección de jugadores */
+        #jugadores {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ajuste automático del tamaño de las columnas */
+            gap: 20px; /* Espaciado uniforme entre tarjetas */
+        }
+
+        /* Estilos para la tarjeta del jugador */
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-body p {
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body data-bs-theme="dark">
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12 col-md-10 mx-auto">
+                <div class="card">
+                    <img src="" width="150" id="image">
+                    <h2 id="nombre"></h2>
+                    <h2 id="estadio"></h2>
+                    <h2 id="titulos"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12 col-md-10 mx-auto">
+                <div class="card">
+                    <h2>Jugadores</h2>
+                    <div id="jugadores">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        if (id == null) {
+            window.location.href = "/";
+        }
+
+        function response_received(response) {
+            return response.json();
+        }
+
+        function parse_data(data) {
+            console.log(data);
+            const image = document.getElementById("image");
+            image.setAttribute("src", data.image);
+
+            const nombre = document.getElementById("nombre");
+            nombre.innerText = data.nombre;
+
+            const estadio = document.getElementById("estadio");
+            estadio.innerText = `Estadio: ${data.estadio}`;
+
+            const titulos = document.getElementById("titulos");
+            titulos.innerText = `Títulos Totales: ${data.titulos}`;
+        }
+
+        function handle_error(error) {
+            console.log("ERROR", error);
+        }
+
+        fetch(`http://localhost:5000/equipos/${id}`)
+            .then(response_received)
+            .then(parse_data)
+            .catch(handle_error);
+    </script>
+
+    <script>
+        function data_received(data) {
+            console.log("SUCCESS");
+            console.log(data);
+            return data.json();
+        }
+
+        function request_error(error) {
+            console.log("ERROR");
+            console.log(error);
+        }
+
+        function parse_data(data) {
+            console.log("lista de jugadores");
+            console.log(data);
+
+            const container = document.getElementById("jugadores");
+            const jugadores = data.jugadores;
+
+            if (Array.isArray(jugadores) && jugadores.length > 0) {
+                jugadores.forEach(jugador => {
+                    console.log("Nombre del jugador:", jugador.nombre);
+
+                    const item = document.createElement("div");
+                    item.setAttribute("class", "card text-decoration-none");
+
+                    const name_container = document.createElement("a");
+                    name_container.setAttribute("href", `/jugador?id=${jugador.id}`);
+                    name_container.setAttribute("class", "card-header");
+
+                    const name = document.createElement("h5");
+                    name.setAttribute("class", "card-title");
+                    name.textContent = jugador.nombre;                    
+
+                    name_container.appendChild(name);
+
+                    const card_content = document.createElement("div");
+                    card_content.setAttribute("class", "card-body");
+
+                    const edad = document.createElement("p");
+                    edad.textContent = `Edad: ${jugador.edad}`;
+                    const altura = document.createElement("p");
+                    altura.textContent = `Altura: ${jugador.altura} cm`;
+                    const posicion = document.createElement("p");
+                    posicion.textContent = `Posición: ${jugador.posicion}`;
+                    const nacionalidad = document.createElement("p");
+                    nacionalidad.textContent = `Nacionalidad: ${jugador.nacionalidad}`;
+
+                    card_content.appendChild(edad);
+                    card_content.appendChild(altura);
+                    card_content.appendChild(posicion);
+                    card_content.appendChild(nacionalidad);
+
+                    item.appendChild(name_container);
+                    item.appendChild(card_content);
+
+                    container.appendChild(item);
+                });
+            } else {
+                console.log("No hay jugadores para mostrar o el formato de datos es incorrecto");
+            }
+        }
+
+        fetch(`http://localhost:5000/equipos/${id}/jugadores`)
+            .then(data_received)
+            .then(parse_data)
+            .catch(request_error);
+    </script>
+
+
+</body>
+</html>

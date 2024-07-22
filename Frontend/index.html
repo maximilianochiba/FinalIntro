@@ -1,95 +1,136 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta charset="viewpoint" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+        }
 
+        .container {
+            margin-top: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #e0e0e0;
+        }
+
+        #equipos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ajuste automático del tamaño de las columnas */
+            gap: 20px; /* Espaciado uniforme entre tarjetas */
+        }
+
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-body a {
+            text-decoration: none; /* Elimina el subrayado */
+            color: #e0e0e0; /* Color del texto */
+            display: block; /* Asegura que el enlace ocupe el espacio completo del card */
+        }
+
+        .card-body a:hover {
+            color: #ffffff; /* Color del texto al pasar el cursor */
+        }
+    </style>
 </head>
 
-<body  data-bs-theme="dark">
+<body data-bs-theme="dark">
+
     <div class="container">
         <div class="row">
             <div class="col">
-                 <h1>Equipos</h1>
-                 
+                <h1>Equipos</h1>
             </div>
         </div>
     </div>
-
 
     <div class="container">
         <div class="row" id="equipos">
-            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-
-            </div>
+            <!-- Las tarjetas de equipos se agregarán aquí dinámicamente -->
         </div>
     </div>
-   
-   
-
-    <ul id="lista_equipos">
-            
-    </ul>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
         function data_received(data) {
-            console.log("SUCCESS")
-            console.log(data);
-
-            return data.json()
+            console.log("SUCCESS");
+            return data.json();
         }
+
         function request_error(error) {
-            console.log("ERROR")
+            console.log("ERROR");
             console.log(error);
         }
+
         function parse_data(data) {
             console.log("lista de equipos");
-            console.log(data);
-
             const container = document.getElementById("equipos");
             const equipos = data.equipos;
 
             if (Array.isArray(equipos) && equipos.length > 0) {
                 equipos.forEach(equipo => {
-
-                    console.log("Nombre del equipo:", equipo.nombre);
                     const item = document.createElement("div");
-                    item.setAttribute("class", "col-6 col-md-4 col-lg-3 col-xl-2");
+                    item.setAttribute("class", "card text-decoration-none");
 
-                    const card_body = document.createElement("div");
-                    card_body.setAttribute("class", "card");
+                    const card_body = document.createElement("a");
+                    card_body.setAttribute("href", `/equipo?id=${equipo.id}`);
+                    card_body.setAttribute("class", "card-body");
 
                     const image = document.createElement("img");
                     image.setAttribute("class", "card-img-top");
                     image.setAttribute("src", equipo.image);
 
-                    const card_content = document.createElement("div");
-                    card_content.setAttribute("class", "card-body");
-                    card_content.textContent = equipo.nombre;
+                    const name = document.createElement("p");
+                    name.textContent = equipo.nombre;
 
-                    card_body.appendChild(card_content);
                     card_body.appendChild(image);
-                    item.appendChild(card_body);
-                    container.appendChild(item); 
+                    card_body.appendChild(name);
 
-                    
+                    item.appendChild(card_body);
+                    container.appendChild(item);
                 });
             } else {
                 console.log("No hay equipos para mostrar o el formato de datos es incorrecto");
             }
-
         }
 
         fetch("http://localhost:5000/equipos")
-        .then(data_received)
-        .then(parse_data)
-        .catch(request_error);
-        
+            .then(data_received)
+            .then(parse_data)
+            .catch(request_error);
     </script>
 </body>
 
