@@ -35,34 +35,8 @@ def get_equipos():
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
-
-
-@app.route('/jugadores', methods=['GET'])
-def get_jugadores2():
-    try: 
-        jugadores = Jugadores.query.order_by(Jugadores.nombre).all()
-        #print(equipos)
-        jugadores_data = []
-        for juagador in jugadores:
-            jugador_data = {
-                'id': jugador.id,
-                'id_equipo': jugador.id_equipo,
-                'nombre': jugador.nombre,
-                'edad': jugador.edad,
-                'altura': jugador.altura,
-                'posicion': jugador.posicion,
-                'nacionalidad': jugador.nacionalidad
-            }
-            jugadores_data.append(jugador_data)
-        return jsonify({'jugadores': jugadores_data})
-    except Exception as error:
-        print('Error', error)
-        return jsonify({'message': 'Internal server error'}), 500
-
-
-
 @app.route('/jugadores/<id>', methods=['GET'])
-def get_jugadores3(id):
+def get_jugadores_individuales(id):
     try: 
         jugador = Jugadores.query.get(id)
         #print(equipos)
@@ -75,16 +49,14 @@ def get_jugadores3(id):
             'posicion': jugador.posicion,
             'nacionalidad': jugador.nacionalidad
         }
-
         return jugador_data
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
 
-
 @app.route('/equipos/<id_equipo>', methods=['GET'])
-def data(id_equipo):    
+def get_equipo_individual(id_equipo):    
     try: 
         equipo = Equipos.query.get(id_equipo)
         #print(equipos)       
@@ -102,7 +74,7 @@ def data(id_equipo):
 
 
 @app.route('/equipos/<id_equipo>/jugadores', methods=['GET'])
-def data2(id_equipo):
+def get_jugadores_equipo(id_equipo):
     try: 
         equipo = Equipos.query.get(id_equipo)
         #print(equipos) 
@@ -138,7 +110,7 @@ def nuevo_jugador(id_equipo):
         #equipo = Equipos.query.get(id_equipo)
 
         data = request.json
-        
+
         id_equipo = data.get('id_equipo')
         nombre = data.get('nombre')
         edad = data.get('edad')
@@ -173,35 +145,6 @@ def eliminar_jugador(id):
     except Exception as error:
         print(f'Error al eliminar el jugador: {error}')
         return jsonify({'message': 'Error interno del servidor'}), 500
-
-
-
-@app.route('/equipos/river', methods=['GET'])
-def get_jugadores():
-    try: 
-        jugadores = Jugadores.query.where(Jugadores.id_equipo == 1).all()
-        #print(equipos)
-        jugadores_data = []
-        for jugador in jugadores:
-            jugador_data = {
-                'id': jugador.id,
-                'id_equipo': jugador.id_equipo,
-                'nombre': jugador.nombre,
-                'edad': jugador.edad,
-                'altura': jugador.altura,
-                'posicion': jugador.posicion,
-                'nacionalidad': jugador.nacionalidad
-            }
-            jugadores_data.append(jugador_data)
-        return jsonify({'jugadores': jugadores_data})
-    except Exception as error:
-        print('Error', error)
-        return jsonify({'message': 'Internal server error'}), 500
-
-
-
-
-
 
 
 
