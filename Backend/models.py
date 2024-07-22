@@ -9,6 +9,7 @@ class Equipos(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     titulos = db.Column(db.Integer, nullable=False)
     estadio = db.Column(db.String(100), nullable=False)
+    image = db.Column(db.String(100), nullable=False)
     jugadores = db.relationship("Jugadores")
 
 class Jugadores(db.Model):

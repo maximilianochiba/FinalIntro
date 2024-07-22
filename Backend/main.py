@@ -26,7 +26,8 @@ def get_equipos():
                 'id': equipo.id,
                 'nombre': equipo.nombre,
                 'titulos': equipo.titulos,
-                'estadio': equipo.estadio
+                'estadio': equipo.estadio,
+                'image': equipo.image
             }
             equipos_data.append(equipo_data)
         return jsonify({'equipos': equipos_data})
@@ -61,7 +62,7 @@ def get_jugadores2():
 
 
 @app.route('/equipos/<id_equipo>', methods=['GET'])
-def data(id_equipo):
+def data(id_equipo):    
     try: 
         equipo = Equipos.query.get(id_equipo)
         #print(equipos)       
@@ -69,7 +70,8 @@ def data(id_equipo):
            #'id': equipo.id,
             'nombre': equipo.nombre,
             'titulos': equipo.titulos,
-            'estadio': equipo.estadio
+            'estadio': equipo.estadio,
+            'image': equipo.image   
         }
         return equipo_data
     except Exception as error:
