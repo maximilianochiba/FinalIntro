@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="viewpoint" content="width=device-width, initial-scale=1">
+    <title>Equipos</title>
+</head>
+
+<body>
+    <h1>Equipos</h1>
+
+    <ul id="lista_equipos">
+            
+    </ul>
+
+    <script>
+        function data_received(data) {
+            console.log("SUCCESS")
+            console.log(data);
+
+            return data.json()
+        }
+        function request_error(error) {
+            console.log("ERROR")
+            console.log(error);
+        }
+        function parse_data(data) {
+            console.log("lista de equipos");
+            console.log(data);
+
+            const list = document.getElementById("lista_equipos");
+            const equipos = data.equipos;
+
+            if (Array.isArray(equipos) && equipos.length > 0) {
+                equipos.forEach(equipo => {
+                    const item = document.createElement("li");
+                    item.textContent = equipo.nombre;
+                    list.appendChild(item);
+                });
+            } else {
+                console.log("No hay equipos para mostrar o el formato de datos es incorrecto");
+            }
+
+        }
+
+        fetch("http://localhost:5000/equipos")
+        .then(data_received)
+        .then(parse_data)
+        .catch(request_error);
+        
+    </script>
+</body>
+
+</html>

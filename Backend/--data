@@ -1,0 +1,31 @@
+{
+  "jugadores": [
+    {
+      "altura": 184,
+      "edad": 31,
+      "id": 1,
+      "id_equipo": 1,
+      "nacionalidad": "Colombiano",
+      "nombre": "Miguel Borja",
+      "posicion": "delantero"
+    },
+    {
+      "altura": 180,
+      "edad": 16,
+      "id": 2,
+      "id_equipo": 1,
+      "nacionalidad": "Argentino",
+      "nombre": "Franco Mastantuono",
+      "posicion": "mediocampista"
+    },
+    {
+      "altura": 179,
+      "edad": 24,
+      "id": 3,
+      "id_equipo": 1,
+      "nacionalidad": "Argentino",
+      "nombre": "Facundo Colidio",
+      "posicion": "delantero"
+    }
+  ]
+}
