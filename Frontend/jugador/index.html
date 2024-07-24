@@ -46,12 +46,6 @@
             padding: 15px; 
         }
 
-        .card-img-top {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-        }
-
 
         #jugadores {
             display: grid;
@@ -145,6 +139,9 @@
         <div class="row">
             <div class="col-12 col-md-10 mx-auto">
                 <div class="card">
+                    <div>
+                        <img id="img" class="card-img-top" src="" style="width: 150px; height: 200px;" />
+                    </div>
                     
                     <h2 id="nombre"></h2>
                     <h2></h2>
@@ -189,6 +186,9 @@
         function parse_data(data) {
             console.log(data);
 
+            
+
+
             const nombre = document.getElementById("nombre");
             nombre.innerText = data.nombre;
             const title = document.getElementById("title");
@@ -201,6 +201,9 @@
             posicion.innerText = `Posición: ${data.posicion}`;
             const nacionalidad = document.getElementById("nacionalidad");
             nacionalidad.innerText = `Nacionalidad: ${data.nacionalidad}`;
+            const image = document.getElementById("img");
+            image.setAttribute("src", `/images_jugador/${data.id}.png`);
+
         }
 
         function handle_error(error) {

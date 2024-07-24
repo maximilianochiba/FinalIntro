@@ -271,6 +271,12 @@
                     const item = document.createElement("div");
                     item.setAttribute("class", "card text-decoration-none");
 
+                    const image = document.createElement("img");
+                    image.setAttribute("class", "card-img-top");
+                    image.setAttribute("src", `/images_jugador/${jugador.id}.png`);
+                    image.style.width = '150px';
+                    image.style.height = '200px';
+
                     const name_container = document.createElement("a");
                     name_container.setAttribute("href", `/jugador?id=${jugador.id}`);
                     name_container.setAttribute("class", "card-header");
@@ -280,6 +286,7 @@
                     name.textContent = jugador.nombre;                    
 
                     name_container.appendChild(name);
+                    name_container.appendChild(image);
 
                     const card_content = document.createElement("div");
                     card_content.setAttribute("class", "card-body");

@@ -144,13 +144,6 @@ def nuevo_jugador():
 
 
 
-# @app.route('/editar_jugador/<int:id>', methods=['GET'])
-# def get_jugador_editar(id):
-#     jugador = Jugadores.get(id)
-#     if jugador is None:
-#         abort(404, description="Jugador no encontrado")
-#     return jsonify(jugador)
-
 @app.route('/jugadores/<int:id>', methods=['PUT'])
 def update_jugador(id):
     jugador = Jugadores.query.get(id)
@@ -159,11 +152,9 @@ def update_jugador(id):
 
     datos = request.get_json()
     
-    # Validar los datos recibidos
     if 'nombre' not in datos or 'edad' not in datos or 'altura' not in datos or 'posicion' not in datos or 'nacionalidad' not in datos:
         abort(400, description="Datos incompletos")
     
-    # Actualizar el jugador
     jugador.nombre = datos['nombre']
     jugador.edad = datos['edad']
     jugador.altura = datos['altura']
