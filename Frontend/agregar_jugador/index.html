@@ -39,9 +39,16 @@
         
         .navbar {
             background-color: #1e1e1e;
-            padding: 0.5rem 0;
-            position: relative;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            z-index: 1000;
+        }
+
+        body {
+            margin-top: 120px;
         }
 
         .navbar .container {
@@ -182,22 +189,8 @@
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => {
-                if (response.ok) {
-                    alert('Jugador agregado exitosamente');
-                    // Opcional: redirigir a otra página o limpiar el formulario
-                    // window.location.href = `/equipos/${id_equipo}`;
-                } else {
-                    return response.json().then(error => {
-                        console.error('Error al agregar jugador:', error);
-                        alert('Hubo un problema al agregar el jugador');
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error de red:', error);
-                alert('Hubo un problema de red al agregar el jugador');
-            });
+            .then(response)
+            .catch(error);
         });
     </script>
 
@@ -214,9 +207,7 @@
                         selectEquipo.appendChild(option);
                     });
                 })
-                .catch(error => {
-                    console.error('Error al cargar equipos:', error);
-                });
+                .catch(error);
         });
 
     </script>
