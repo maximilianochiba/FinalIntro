@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Jugador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 20px;
+            padding: 20px; 
+            text-align: center;
+        }
+
+        .form-control, .btn {
+            margin-top: 10px;
+        }
+
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-header, .btn {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+        
+        .navbar {
+            background-color: #1e1e1e;
+            padding: 0.5rem 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .navbar .container {
+            padding: 0;
+            margin: 0 auto;
+            max-width: none;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            color: #e0e0e0;
+            text-align: center;
+            margin-bottom: 0;
+            position: relative; 
+        }
+
+        .navbar-brand::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100vw;
+            height: 2px;
+            background-color: #007bff;
+            margin-left: calc(-50vw + 50%);
+        }
+
+        .btn-link {
+            color: #007bff;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border: none;
+            background: none;
+            padding: 0;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-link:hover {
+            color: #0056b3;
+        }
+
+    </style>
+</head>
+
+<body data-bs-theme="dark">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid flex-column">
+            <p class="navbar-brand">Equipos Fútbol Argentino</p>
+            <button class="btn btn-link nav-link" id="home-button">Primera División</button>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12 col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Agregar Nuevo Jugador</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="agregar-jugador-form">
+                            <div class="mb-3">
+                                <label for="id_equipo" class="form-label">Equipo</label>
+                                <select class="form-control" id="id_equipo" required>
+                                    <option value="">Seleccione un equipo</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del jugador" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edad" class="form-label">Edad</label>
+                                <input type="number" class="form-control" id="edad" placeholder="Ingrese la edad del jugador" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="altura" class="form-label">Altura (cm)</label>
+                                <input type="number" class="form-control" id="altura" placeholder="Ingrese la altura del jugador" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="posicion" class="form-label">Posición</label>
+                                <select class="form-control" id="posicion" required>
+                                    <option value="">Seleccione una posición</option>
+                                    <option value="Arquero">Arquero</option>
+                                    <option value="Defensa Central">Defensa Central</option>
+                                    <option value="Lateral Izquierdo">Lateral Izquierdo</option>
+                                    <option value="Lateral Derecho">Lateral Derecho</option>
+                                    <option value="Mediocampista Defensivo">Mediocampista Defensivo</option>
+                                    <option value="Mediocampista">Mediocampista</option>
+                                    <option value="Mediocampista Ofensivo">Mediocampista Ofensivo</option>
+                                    <option value="Segundo Punta">Segundo Punta</option>
+                                    <option value="Delantero Centro">Delantero Centro</option>
+                                    <option value="Extremo">Extremo</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="nacionalidad" class="form-label">Nacionalidad</label>
+                                <input type="text" class="form-control" id="nacionalidad" placeholder="Ingrese la nacionalidad del jugador" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Agregar Jugador</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <script>
+        document.getElementById('agregar-jugador-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const id_equipo = document.getElementById('id_equipo').value;
+            const nombre = document.getElementById('nombre').value;
+            const edad = document.getElementById('edad').value;
+            const altura = document.getElementById('altura').value;
+            const posicion = document.getElementById('posicion').value;
+            const nacionalidad = document.getElementById('nacionalidad').value;
+            
+            const data = {
+                id_equipo: id_equipo,
+                nombre: nombre,
+                edad: edad,
+                altura: altura,
+                posicion: posicion,
+                nacionalidad: nacionalidad
+            };
+            
+            fetch(`http://localhost:5000/agregar_jugador`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Jugador agregado exitosamente');
+                    // Opcional: redirigir a otra página o limpiar el formulario
+                    // window.location.href = `/equipos/${id_equipo}`;
+                } else {
+                    return response.json().then(error => {
+                        console.error('Error al agregar jugador:', error);
+                        alert('Hubo un problema al agregar el jugador');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error de red:', error);
+                alert('Hubo un problema de red al agregar el jugador');
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('http://localhost:5000/equipos')
+                .then(response => response.json())
+                .then(data => {
+                    const selectEquipo = document.getElementById('id_equipo');
+                    data.equipos.forEach(equipo => {
+                        const option = document.createElement('option');
+                        option.value = equipo.id;
+                        option.text = equipo.nombre;
+                        selectEquipo.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar equipos:', error);
+                });
+        });
+
+    </script>
+
+    <script>
+        document.getElementById("home-button").addEventListener("click", () => {
+            window.location.href = "/";
+        });
+    </script>
+
+
+</body>
+</html>

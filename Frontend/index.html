@@ -30,6 +30,10 @@
             gap: 20px; 
         }
 
+        a{
+            text-decoration: none;
+        }
+
         .card {
             background-color: #1e1e1e;
             border: 1px solid #333;
@@ -63,11 +67,66 @@
         .card-body a:hover {
             color: #ffffff; 
         }
+
+        .navbar {
+            background-color: #1e1e1e;
+            padding: 0.5rem 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .navbar .container {
+            padding: 0;
+            margin: 0 auto;
+            max-width: none;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            color: #e0e0e0;
+            text-align: center;
+            margin-bottom: 0;
+            position: relative; 
+        }
+
+        .navbar-brand::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100vw;
+            height: 2px;
+            background-color: #007bff;
+            margin-left: calc(-50vw + 50%);
+        }
+
+        .btn-link {
+            color: #007bff;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border: none;
+            background: none;
+            padding: 0;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-link:hover {
+            color: #0056b3;
+        }
     </style>
     
 </head>
 
 <body data-bs-theme="dark">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid flex-column">
+            <p class="navbar-brand">Equipos Fútbol Argentino</p>
+            <button class="btn btn-link nav-link" id="home-button">Primera División</button>
+        </div>
+    </nav>
 
     <div class="container">
         <div class="row">
@@ -132,6 +191,12 @@
             .then(data_received)
             .then(parse_data)
             .catch(request_error);
+    </script>
+
+    <script>
+        document.getElementById("home-button").addEventListener("click", () => {
+            window.location.href = "/";
+        });
     </script>
 </body>
 

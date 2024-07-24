@@ -103,12 +103,9 @@ def get_jugadores_equipo(id_equipo):
         return jsonify({'message': 'Internal server error'}), 500
 
 
-
-@app.route('/equipos/<id_equipo>', methods=['POST'])
-def nuevo_jugador(id_equipo):
-    try: 
-        #equipo = Equipos.query.get(id_equipo)
-
+@app.route('/agregar_jugador', methods=['POST'])
+def nuevo_jugador():
+    try:
         data = request.json
 
         id_equipo = data.get('id_equipo')
@@ -117,18 +114,72 @@ def nuevo_jugador(id_equipo):
         altura = data.get('altura')
         posicion = data.get('posicion')
         nacionalidad = data.get('nacionalidad')
-        if not id_equipo or not nombre or not edad or not altura or not posicion or not nacionalidad:
-            return jsonify({'message': 'Bad request, isbn or name or cantPages or author not found'}), 400
-        new_jugador = Jugadores(id_equipo=id_equipo, nombre=nombre, edad=edad, altura=altura, posicion=posicion, nacionalidad=nacionalidad)
-        db.session.add(new_jugador)
+
+        nuevo_jugador = Jugadores(
+            id_equipo=id_equipo,
+            nombre=nombre,
+            edad=edad,
+            altura=altura,
+            posicion=posicion,
+            nacionalidad=nacionalidad
+        )
+        db.session.add(nuevo_jugador)
         db.session.commit()
-        return jsonify({'jugador': {'id': new_jugador.id, 'id_equipo': new_jugador.id_equipo, 'nombre': new_jugador.nombre, 'edad': new_jugador.edad, 
-        'altura': new_jugador.altura, 'posicion': new_jugador.posicion, 'nacionalidad': new_jugador.nacionalidad}}), 201
+
+        return jsonify({
+            'message': 'Jugador agregado exitosamente',
+            'jugador': {
+                'id': nuevo_jugador.id,
+                'id_equipo': nuevo_jugador.id_equipo,
+                'nombre': nuevo_jugador.nombre,
+                'edad': nuevo_jugador.edad,
+                'altura': nuevo_jugador.altura,
+                'posicion': nuevo_jugador.posicion,
+                'nacionalidad': nuevo_jugador.nacionalidad
+            }
+        }), 201
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
 
+
+# @app.route('/editar_jugador/<int:id>', methods=['GET'])
+# def get_jugador_editar(id):
+#     jugador = Jugadores.get(id)
+#     if jugador is None:
+#         abort(404, description="Jugador no encontrado")
+#     return jsonify(jugador)
+
+@app.route('/jugadores/<int:id>', methods=['PUT'])
+def update_jugador(id):
+    jugador = Jugadores.query.get(id)
+    if jugador is None:
+        abort(404, description="Jugador no encontrado")
+
+    datos = request.get_json()
+    
+    # Validar los datos recibidos
+    if 'nombre' not in datos or 'edad' not in datos or 'altura' not in datos or 'posicion' not in datos or 'nacionalidad' not in datos:
+        abort(400, description="Datos incompletos")
+    
+    # Actualizar el jugador
+    jugador.nombre = datos['nombre']
+    jugador.edad = datos['edad']
+    jugador.altura = datos['altura']
+    jugador.posicion = datos['posicion']
+    jugador.nacionalidad = datos['nacionalidad']
+    
+    db.session.commit()
+    
+    return jsonify({
+        'id': jugador.id,
+        'nombre': jugador.nombre,
+        'edad': jugador.edad,
+        'altura': jugador.altura,
+        'posicion': jugador.posicion,
+        'nacionalidad': jugador.nacionalidad
+    })
 
 @app.route('/jugadores/<id>', methods=['DELETE'])
 def eliminar_jugador(id):

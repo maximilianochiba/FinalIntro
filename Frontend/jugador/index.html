@@ -68,10 +68,71 @@
             font-size: 0.9rem;
             margin: 5px 0;
         }
+
+        .btn-container {
+            padding: 1em;
+        }
+
+        .navbar {
+            background-color: #1e1e1e;
+            padding: 0.5rem 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .navbar .container {
+            padding: 0;
+            margin: 0 auto;
+            max-width: none;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            color: #e0e0e0;
+            text-align: center;
+            margin-bottom: 0;
+            position: relative; 
+        }
+
+        .navbar-brand::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100vw;
+            height: 2px;
+            background-color: #007bff;
+            margin-left: calc(-50vw + 50%);
+        }
+
+        .btn-link {
+            color: #007bff;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border: none;
+            background: none;
+            padding: 0;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-link:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 
 <body data-bs-theme="dark">
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid flex-column">
+            <p class="navbar-brand">Equipos Fútbol Argentino</p>
+            <button class="btn btn-link nav-link" id="home-button">Primera División</button>
+        </div>
+    </nav>
+
 
 
     <div class="container mt-4">
@@ -88,6 +149,7 @@
                     <h4 id="nacionalidad"></h4>
                     <div class="btn-container">
                         <button class="btn btn-danger" id="delete-btn">Eliminar</button>
+                        <a href="#" class="btn btn-warning" id="edit-btn">Editar</a>
                     </div>
                 </div>
             </div>
@@ -103,6 +165,16 @@
 
         if (id == null) {
             window.location.href = "/";
+        }
+
+        if (id) {
+            // Construye la URL para el botón de editar
+            const editButton = document.getElementById("edit-btn");
+            if (editButton) {
+                editButton.setAttribute("href", `/editar_jugador/?id=${id}`);
+            }
+        } else {
+            console.error("No se encontró el ID del jugador en la URL.");
         }
 
         function response_received(response) {
@@ -153,6 +225,13 @@
             }
         });
     </script>
+
+    <script>
+        document.getElementById("home-button").addEventListener("click", () => {
+            window.location.href = "/";
+        });
+    </script>
+
 
 
 </body>

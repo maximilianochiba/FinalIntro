@@ -14,7 +14,7 @@ class Equipos(db.Model):
 
 class Jugadores(db.Model):
     __tablename__ = 'jugadores'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_equipo = db.Column(db.Integer, db.ForeignKey('equipos.id'))
     nombre = db.Column(db.String(255), nullable=False)
     edad = db.Column(db.Integer, nullable=False)
